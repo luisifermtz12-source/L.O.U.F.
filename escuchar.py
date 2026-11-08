@@ -12,68 +12,43 @@ def hablar(mensaje):
 
 reconocedor = sr.Recognizer()
 
-with sr.Microphone() as fuente:
-    print("L.O.U.F. está iniciando...")
-    reconocedor.adjust_for_ambient_noise(fuente)
+hablar("Esta de vuelta en casa jefa. Puedo escucharla continuamente.")
 
-    hablar("De vuelta a casa jefa. ¿Que tiene pensado para hoy?.")
+while True:
+    try: 
+      with sr.Microphone() as fuente:
+       print("\nL.O.U.F. está escuchando...")
 
-    print("La estoy escuchando...")
-    audio = reconocedor.listen(fuente)
+       reconocedor.adjust_for_ambient_noise(
+          fuente, duration=0.5
+       )
+       audio = reconocedor.listen(
+          fuente, phrase_time_limit=8
+          )
+       texto = reconocedor.recognize_google(
+          audio, language="es-MX"
+       ).lower()
+       print("Tu:", texto)
+       if "adios" in texto or "apagate" in texto:
+          hablar("Hasta pronto jefa. Cerrando mis sistemas.")
+          break
 
-    try:
-        texto = reconocedor.recognize_google(
-            audio, language="es-MX"
-        )
-
-        print("Tú:", texto)
-        hablar("He entendido lo que dijo: " + texto)
+       hablar("He escuchado lo que dice:" + texto)
 
     except sr.UnknownValueError:
-        hablar("No pude entenderle. ¿Puede repetirlo jefa?")
+       hablar("No eh podido conectarme al servicio de reconocimiento.")
+       continue
+    
+    except sr.RequestError as error:
+       print("Error de conexion:", error)
+       continue
 
-    except sr.RequestError:
-        hablar("Tengo problemas de conexión.")
+    except KeyboardInterrupt:
+     print("\nL.O.U.F. detenido.")
+     break
+   
 
 
 
-
-
-
-
-
-
-# print("Iniciando L.O.U.F...")
-#reconocedor = sr.Recognizer()
-# with sr.Microphone() as fuente:
-#       print("L.O.U.F. esta escuchando...")
-#       reconocedor.adjust_for_ambient_noise(fuente)
-#       audio = reconocedor.listen(fuente)
-
-#       print("Procesando tu voz...")
-#       try:
-#             texto = reconocedor.recognize_google(audio, language="es-MX")
-#             print("Has ducho:", texto)
-            
-#       except sr.UnknownValueError:
-#             print("No pude entener lo que dijo jefa.")
-
-#       except sr.RequestError:
-#             print("Error de conexion con el servicio de reconocimiento.")
-      
-# # print("Activando microfono...")
-
-# def escuchar():
-#      with sr.Microphone() as microfono:
-#          print("La estoy escuchando jefa...")
-#          audio = reconocedor.listen(microfono)
-#          print("Audio recibido.")
-        
-#      try: 
-#              texto = reconocedor.recognice_google (audio, lenguaje="es-MX")
-#              print("Tu dijiste:", texto)
-#      except Exception as e:
-#              print("No pude reconocer su voz jefa.")
-# escuchar()
 
  
