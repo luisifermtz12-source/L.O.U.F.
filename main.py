@@ -3,7 +3,7 @@
 # =================================
 
 print("==========================")
-print("   SITEMA L.O.U.F.")
+print("   SISTEMA L.O.U.F.")
 print("==========================")
 
 print("Arrancando sistema...")
